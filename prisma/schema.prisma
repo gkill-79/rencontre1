@@ -1,0 +1,84 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql" // ou "mysql", "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int    @id @default(autoincrement())
+  email     String @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Profile   Profile?
+  MessagesSent    Message[] @relation("SenderMessages")
+  MessagesReceived Message[] @relation("ReceiverMessages")
+  LikesSent   Like[] @relation("SenderLikes")
+  LikesReceived Like[] @relation("ReceiverLikes")
+  Matches1    Match[] @relation("User1Matches")
+  Matches2    Match[] @relation("User2Matches")
+  Notifications Notification[]
+}
+
+model Profile {
+  id        Int    @id @default(autoincrement())
+  userId    Int    @unique
+  name      String
+  age       Int
+  location  String
+  description String?
+  photos    String[]
+  interests String[]
+
+  user      User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Message {
+  id        Int    @id @default(autoincrement())
+  senderId  Int
+  receiverId Int
+  content   String
+  sentAt    DateTime @default(now())
+
+  sender    User @relation("SenderMessages", fields: [senderId], references: [id], onDelete: Cascade)
+  receiver  User @relation("ReceiverMessages", fields: [receiverId], references: [id], onDelete: Cascade)
+}
+
+model Like {
+  id        Int    @id @default(autoincrement())
+  senderId  Int
+  receiverId Int
+  createdAt DateTime @default(now())
+
+  sender    User @relation("SenderLikes", fields: [senderId], references: [id], onDelete: Cascade)
+  receiver  User @relation("ReceiverLikes", fields: [receiverId], references: [id], onDelete: Cascade)
+
+  @@unique([senderId, receiverId]) // Empêche les likes multiples
+}
+
+model Match {
+  id        Int    @id @default(autoincrement())
+  user1Id   Int
+  user2Id   Int
+  createdAt DateTime @default(now())
+
+  user1     User @relation("User1Matches", fields: [user1Id], references: [id], onDelete: Cascade)
+  user2     User @relation("User2Matches", fields: [user2Id], references: [id], onDelete: Cascade)
+
+  @@unique([user1Id, user2Id]) // Empêche les matches multiples
+}
+
+model Notification {
+  id        Int    @id @default(autoincrement())
+  userId    Int
+  type      String
+  content   String
+  isRead    Boolean @default(false)
+  createdAt DateTime @default(now())
+
+  user      User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
