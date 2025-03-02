@@ -34,3 +34,46 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+
+# Rencontre1 - Site de Rencontres
+
+Une plateforme de rencontres moderne construite avec Next.js, TypeScript, Tailwind CSS, et Prisma.
+
+## Caractéristiques
+
+- 🔐 Authentification sécurisée avec NextAuth.js
+- 👤 Profils utilisateurs personnalisables
+- 💬 Messagerie en temps réel
+- ❤️ Système de "j'aime" et de correspondances
+- 🌍 Recherche par localisation
+- 📱 Design responsive pour toutes les tailles d'écran
+- 🔍 Recherche avancée avec filtres
+
+## Prérequis
+
+- Node.js 14.x ou supérieur
+- PostgreSQL (ou une autre base de données compatible avec Prisma)
+- npm ou yarn
+
+## Installation
+
+1. Clonez le dépôt :
+```bash
+git clone https://github.com/gkill-79/rencontre1.git
+cd rencontre1
+```
+
+2. Installez les dépendances :
+```bash
+npm install
+# ou
+yarn install
+```
+
+3. Configurez les variables d'environnement :
+```bash
+cp .env.example .env
+```
+
+4. Configurez la base de données :
