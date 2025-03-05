@@ -1,41 +1,38 @@
-// components/ChatWidget.jsx
-import dynamic from 'next/dynamic';
-import '@sendbird/uikit-react/dist/index.css';
+// components/Carousel.tsx
+import React from "react";
 
-const SendBirdProvider = dynamic(
-  () => import('@sendbird/uikit-react').then(mod => mod.SendBirdProvider),
-  { ssr: false }
-);
-const ChannelList = dynamic(
-  () => import('@sendbird/uikit-react').then(mod => mod.ChannelList),
-  { ssr: false }
-);
-const Channel = dynamic(
-  () => import('@sendbird/uikit-react').then(mod => mod.Channel),
-  { ssr: false }
-);
+const Carousel = () => {
+  const frames = Array.from({ length: 30 }, (_, i) => `Frame ${i + 1}`);
 
-const ChatWidget = () => {
   return (
-    <div style={{
-      position: 'fixed',
-      bottom: 0,
-      right: 0,
-      width: '300px',
-      height: '400px',
-      border: '1px solid #ccc',
-      borderRadius: '8px',
-      overflow: 'hidden',
-      display: 'flex',
-      flexDirection: 'column',
-      backgroundColor: '#fff',
-    }}>
-      <SendBirdProvider appId="VOTRE_APP_ID" userId="USER_ID">
-        <ChannelList />
-        <Channel />
-      </SendBirdProvider>
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(5, 1fr)",
+        gap: "10px",
+        overflowY: "scroll",
+        height: "80vh",
+        padding: "10px",
+        border: "1px solid #ccc",
+        borderRadius: "8px",
+      }}
+    >
+      {frames.map((frame, index) => (
+        <div
+          key={index}
+          style={{
+            border: "1px solid #ddd",
+            padding: "10px",
+            textAlign: "center",
+            borderRadius: "4px",
+          }}
+        >
+          {frame}
+        </div>
+      ))}
     </div>
   );
 };
 
-export default ChatWidget;
+export default Carousel;
+

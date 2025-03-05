@@ -1,6 +1,8 @@
+'use client';
+
 import React, { useState } from 'react';
-import Link from 'next/link';
 import { useSession, signOut } from 'next-auth/react';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 const Header: React.FC = () => {
@@ -9,6 +11,12 @@ const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const isAuthenticated = status === 'authenticated' && session;
+
+  const handleNavigation = (path: string) => {
+    if (router) {
+      router.push(path);
+    }
+  }; 
 
   const handleSignOut = async () => {
     await signOut({ redirect: false });
