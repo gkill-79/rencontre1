@@ -1,15 +1,19 @@
-import { Inter } from "next/font/google";
-import AuthProvider from "@/components/providers/AuthProvider";
+import React from 'react';
+import { Providers } from './providers';
+import HeaderClient from '@/components/client/HeaderClient';
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
-
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ 
+  children 
+}: { 
+  children: React.ReactNode 
+}) {
   return (
-    <html lang="fr">
-      <body className={`${inter.variable} antialiased dark:bg-gray-900 dark:text-white`}>
-        <AuthProvider>
+    <html lang="en">
+      <body>
+        <Providers>
+          <HeaderClient />
           {children}
-        </AuthProvider>
+        </Providers>
       </body>
     </html>
   );
