@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rencontre1 - Accueil</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+  <header class="bg-white shadow-sm">
+    <nav class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+      <div class="text-2xl font-bold text-primary">Rencontre1</div>
+      <ul class="flex space-x-6">
+        <li><a href="/" class="text-primary font-medium hover:text-primary-dark">Accueil</a></li>
+        <li><a href="/profile" class="text-gray-700 font-medium hover:text-primary">Mon profil</a></li>
+        <li><a href="/auth/logout" class="text-gray-700 font-medium hover:text-primary">Déconnexion</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="flex-grow max-w-6xl mx-auto px-4 py-8">
+    <section class="text-center mb-10">
+      <h1 class="text-3xl font-bold text-gray-800 mb-2">Bienvenue, <%= currentUser.username %> !</h1>
+      <p class="text-gray-600">Découvrez des profils intéressants aujourd'hui.</p>
+    </section>
+
+    <section class="my-8">
+      <h2 class="text-2xl font-semibold text-gray-800 text-center mb-6">Profils suggérés</h2>
+      
+      <div class="relative">
+        <button id="prevButton" class="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-white rounded-full w-10 h-10 flex items-center justify-center shadow-md hover:bg-gray-100 focus:outline-none">
+          <i class="fas fa-chevron-left text-gray-800"></i>
+        </button>
+        
+        <div class="carousel overflow-x-hidden scroll-smooth px-10">
+          <div class="flex space-x-6 py-4">
+            <% if (users && users.length > 0) { %>
+              <% users.forEach(user => { %>
+                <div class="profile-card">
+                  <div class="h-48 overflow-hidden">
+                    <img src="<%= user.profilePicture %>" alt="<%= user.username %>" class="w-full h-full object-cover">
+                  </div>
+                  <div class="p-4">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-1"><%= user.username %></h3>
+                    <% if (user.age) { %>
+                      <p class="text-gray-600 mb-1"><%= user.age %> ans</p>
+                    <% } %>
+                    <% if (user.bio) { %>
+                      <p class="text-gray-600 text-sm h-10 overflow-hidden mb-4">
+                        <%= user.bio.substring(0, 50) %><%= user.bio.length > 50 ? '...' : '' %>
+                      </p>
+                    <% } %>
+                    <div class="flex justify-between items-center mt-2">
+                      <button class="like-button" data-id="<%= user._id %>">
+                        <i class="fas fa-heart"></i>
+                      </button>
+                      <a href="/profile/<%= user._id %>" class="bg-gray-100 px-3 py-1 rounded text-sm text-gray-800 hover:bg-gray-200">
+                        Voir profil
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              <% }); %>
+            <% } else { %>
+              <div class="w-full text-center py-10 bg-gray-100 rounded-lg text-gray-600">
+                <p>Aucun profil à afficher pour le moment.</p>
+              </div>
+            <% } %>
+          </div>
+        </div>
+        
+        <button id="nextButton" class="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-white rounded-full w-10 h-10 flex items-center justify-center shadow-md hover:bg-gray-100 focus:outline-none">
+          <i class="fas fa-chevron-right text-gray-800"></i>
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-gray-800 text-white py-6 px-4 text-center mt-auto">
+    <p>&copy; 2025 Rencontre1. Tous droits réservés.</p>
+  </footer>
+
+  <script src="/js/carousel.js"></script>
+</body>
+</html>

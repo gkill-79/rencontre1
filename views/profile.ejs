@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rencontre1 - Mon Profil</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+  <header class="bg-white shadow-sm">
+    <nav class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+      <div class="text-2xl font-bold text-primary">Rencontre1</div>
+      <ul class="flex space-x-6">
+        <li><a href="/" class="text-gray-700 font-medium hover:text-primary">Accueil</a></li>
+        <li><a href="/profile" class="text-primary font-medium hover:text-primary-dark">Mon profil</a></li>
+        <li><a href="/auth/logout" class="text-gray-700 font-medium hover:text-primary">Déconnexion</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="flex-grow max-w-4xl mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold text-gray-800 mb-8 text-center">Mon Profil</h1>
+    
+    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+      <div class="md:flex">
+        <div class="md:w-1/3 bg-gray-100 p-6 flex flex-col items-center">
+          <div class="w-40 h-40 rounded-full overflow-hidden mb-4 border-4 border-white shadow-md">
+            <img src="<%= user.profilePicture %>" alt="<%= user.username %>" class="w-full h-full object-cover">
+          </div>
+          <h2 class="text-xl font-semibold text-gray-800 mb-1"><%= user.username %></h2>
+          <p class="text-gray-600 mb-4"><%= user.email %></p>
+          <% if (user.age) { %>
+            <p class="text-gray-600"><%= user.age %> ans</p>
+          <% } %>
+        </div>
+        
+        <div class="md:w-2/3 p-6">
+          <h3 class="text-lg font-semibold text-gray-800 mb-4">Modifier votre profil</h3>
+          
+          <form action="/profile/update" method="POST" enctype="multipart/form-data">
+            <div class="mb-4">
+              <label for="profilePicture" class="block text-gray-700 font-medium mb-2">Photo de profil</label>
+              <input type="file" id="profilePicture" name="profilePicture" accept="image/*"
+                class="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary">
+            </div>
+            
+            <div class="mb-4">
+              <label for="bio" class="block text-gray-700 font-medium mb-2">Biographie</label>
+              <textarea id="bio" name="bio" rows="3"
+                class="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary"><%= user.bio %></textarea>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+              <div>
+                <label for="age" class="block text-gray-700 font-medium mb-2">Âge</label>
+                <input type="number" id="age" name="age" value="<%= user.age || '' %>" min="18" max="120"
+                  class="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary">
+              </div>
+              
+              <div>
+                <label for="gender" class="block text-gray-700 font-medium mb-2">Genre</label>
+                <select id="gender" name="gender"
+                  class="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary">
+                  <option value="">Sélectionner</option>
+                  <option value="homme" <%= user.gender === 'homme' ? 'selected' : '' %>>Homme</option>
+                  <option value="femme" <%= user.gender === 'femme' ? 'selected' : '' %>>Femme</option>
+                  <option value="autre" <%= user.gender === 'autre' ? 'selected' : '' %>>Autre</option>
+                </select>
+              </div>
+            </div>
+            
+            <div class="mb-6">
+              <label for="interests" class="block text-gray-700 font-medium mb-2">Centres d'intérêt (séparés par des virgules)</label>
+              <input type="text" id="interests" name="interests" value="<%= user.interests ? user.interests.join(', ') : '' %>"
+                class="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary">
+            </div>
+            
+            <button type="submit" class="bg-primary hover:bg-primary-dark text-white font-medium py-2 px-6 rounded focus:outline-none focus:ring-2 focus:ring-primary-light">
+              Enregistrer les modifications
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="bg-gray-800 text-white py-6 px-4 text-center mt-auto">
+    <p>&copy; 2025 Rencontre1. Tous droits réservés.</p>
+  </footer>
+</body>
+</html>
